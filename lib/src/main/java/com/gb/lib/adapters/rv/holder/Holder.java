@@ -5,12 +5,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gb.lib.view.holders.VHBase;
 
-public class H<H extends VHBase> extends RecyclerView.ViewHolder {
+public class Holder<H extends VHBase> extends RecyclerView.ViewHolder {
 
     public H
             item;
 
-    public H(@NonNull H holder) {
+    public Holder(@NonNull H holder) {
         super(
                 holder.v());
 

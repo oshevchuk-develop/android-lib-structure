@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gb.lib.adapters.list.Selector;
-import com.gb.lib.adapters.rv.holder.H;
+import com.gb.lib.adapters.rv.holder.Holder;
 import com.gb.lib.adapters.rv.i.IBaseAdapter;
 import com.gb.lib.app.utils.Utils;
 import com.gb.lib.view.holders.VHBase;
@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerView.Adapter<H<VHBase>> implements IBaseAdapter<T> {
+public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase> extends RecyclerView.Adapter<Holder<H>> implements IBaseAdapter<T, H> {
 
     @LayoutRes
     private int
@@ -131,13 +131,13 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerV
         return this.oAdd(arg1, position).uiNotifInsertRange(position, Utils.Lists.safe(arg1).size()).getItemCount() == 0;
     }
 
-    public BaseAdapter<T> update(
+    public BaseAdapter<T, H> update(
             int i, T t) {
         this.items.set(i, t);
         return this;
     }
 
-    public BaseAdapter<T> remove(
+    public BaseAdapter<T, H> remove(
             int i) {
         this.items.remove(i);
         return this;
@@ -145,24 +145,24 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerV
 
     @NonNull
     @Override
-    public H<VHBase> onCreateViewHolder(@NonNull ViewGroup view, int i) {
+    public Holder<H> onCreateViewHolder(@NonNull ViewGroup view, int i) {
         return
-                new H<>(new VHBase(LayoutInflater.from(this.c).inflate(i, view, false)));
+                new Holder<>((H) new VHBase(LayoutInflater.from(this.c).inflate(i, view, false)));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull H view, int position) {
+    public void onBindViewHolder(@NonNull Holder view, int position) {
         if (this.items.get(view.getAdapterPosition()) instanceof Injection) {
             this.bind(
-                    view.item, (Injection) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
+                    (H) view.item, (Injection) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         } else {
             this.bind(
-                    view.item, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
+                    (H) view.item, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         }
     }
 
     @Override
-    public void bind(VHBase holder, BaseAdapter.Injection item, int i) {
+    public void bind(H holder, BaseAdapter.Injection item, int i) {
 
     }
 
@@ -173,17 +173,16 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerV
 
     @Override
     public int getItemViewType(int position) {
-        return this.getL(this.items.get(position));
-    }
-
-    @Override
-    public int getL(IItem item) {
-        return item.inst(Injection.class) ? item.cast(Injection.class).getL() : this.l;
+        return
+                this.items.get(position).inst(Injection.class)
+                        ? this.items.get(position).cast(Injection.class).getL()
+                        : this.l;
     }
 
     public IItem first() {
         if (this.items.size() > 0) {
-            return this.items.get(0);
+            return
+                    this.items.get(0);
         }
         return null;
     }
@@ -201,11 +200,11 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerV
         return this.items.get(i);
     }
 
-    public BaseAdapter<T> select(int index) {
+    public BaseAdapter<T, H> select(int index) {
         return select(index, true);
     }
 
-    public BaseAdapter<T> select(int index, boolean notif) {
+    public BaseAdapter<T, H> select(int index, boolean notif) {
         for (int i = 0; i < this.items.size(); i++) {
             if (this.items.get(i) instanceof Selector) {
                 ((Selector) this.items.get(i)).setSelected(i == index);
@@ -234,7 +233,8 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerV
         }
 
         default <T extends IItem> T cast(Class<T> cls) {
-            return this.inst(cls) ? cls.cast(this) : null;
+            return
+                    this.inst(cls) ? cls.cast(this) : null;
         }
     }
 
@@ -258,7 +258,7 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerV
             return l;
         }
 
-        public int getKey() {
+        public int getK() {
             return key;
         }
     }
@@ -270,64 +270,41 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem> extends RecyclerV
         }
     }
 
-    public static class IASub<T extends IItem> extends Selector {
-
-        private int index;
-
-        private transient BaseAdapter<T> sub;
-
-        public int getIndex() {
-            return index;
-        }
-
-        public void setIndex(int index) {
-            this.index = index;
-        }
-
-        public BaseAdapter<T> getSub() {
-            return sub;
-        }
-
-        public BaseAdapter<T> setSub(BaseAdapter<T> sub) {
-            this.sub = sub;
-            return sub;
-        }
-    }
-
-
     /*actions*/
-    private BaseAdapter<T> oClear() {
+    private BaseAdapter<T, H> oClear() {
         if (this.items != null) {
             this.items.clear();
         }
         return this;
     }
 
-    private BaseAdapter<T> oAdd(List<T> items) {
+    private BaseAdapter<T, H> oAdd(List<T> items) {
         return this.oAdd(items, this.items.size());
     }
 
-    private BaseAdapter<T> oAdd(List<T> items, int position) {
+    private BaseAdapter<T, H> oAdd(List<T> items, int position) {
         if (items != null) {
             this.items.addAll(position, items);
         }
         return this;
     }
 
-    private BaseAdapter<T> oAdd(Injection injection) {
+    private BaseAdapter<T, H> oAdd(Injection injection) {
         if (injection != null) {
             this.items.add(injection);
         }
         return this;
     }
 
-    private BaseAdapter<T> uiNotifAll() {
-        this.notifyDataSetChanged();
+    private BaseAdapter<T, H> uiNotifAll() {
+        this
+                .notifyDataSetChanged();
         return this;
     }
 
-    private BaseAdapter<T> uiNotifInsertRange(int start, int count) {
-        this.notifyItemRangeInserted(start, count);
+    private BaseAdapter<T, H> uiNotifInsertRange(int start, int count) {
+        this
+                .notifyItemRangeInserted(start, count);
         return this;
     }
 }
