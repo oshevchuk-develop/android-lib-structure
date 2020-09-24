@@ -29,6 +29,7 @@ public class MainActivity extends ABase<App> {
         }
     }
 
+
     @Override
     public void created() {
 
@@ -39,5 +40,7 @@ public class MainActivity extends ABase<App> {
 
             }
         };
+
+        //new ApiManager.JSONRPC2().function("").run(this.app);
     }
 }

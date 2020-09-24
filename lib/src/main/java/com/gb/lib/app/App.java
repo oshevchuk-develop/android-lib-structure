@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.gb.lib.app.i.IACallBack;
+import com.gb.lib.app.utils.Utils;
 
 public class App extends Application implements IACallBack {
 
@@ -24,6 +25,18 @@ public class App extends Application implements IACallBack {
     @Override
     public void created() {
 
+    }
+
+    @Override
+    public String url() {
+        return
+                Utils.Strings.EMPTY;
+    }
+
+    @Override
+    public String url(String segments) {
+        return
+                this.url() + segments;
     }
 
     /*-------------------------------------------------------------------------------*/
