@@ -3,23 +3,90 @@ package com.gb.lib.api.connection;
 import android.os.AsyncTask;
 
 import com.gb.lib.exceptions.CException;
+import com.gb.lib.statics.Errors;
 
 public class Post<D> extends AsyncTask<Void, Void, Post.Response<D>> {
 
-    private IDo f;
+    private IDo<D>
+            f;
+
+    private IBefore
+            before;
+
+    private ISuccess<D>
+            success;
+
+    private IError
+            error;
+
+    private IAlways<D>
+            always;
 
     public Post(IDo f) {
         this.f = f;
     }
 
+    public Post<D> before(IBefore l) {
+        this.before = l;
+        return
+                this;
+    }
+
+    public Post<D> success(ISuccess<D> l) {
+        this.success = l;
+        return
+                this;
+    }
+
+    public Post<D> error(IError l) {
+        this.error = l;
+        return
+                this;
+    }
+
+    public Post<D> always(IAlways<D> l) {
+        this.always = l;
+        return
+                this;
+    }
+
     @Override
     protected Response<D> doInBackground(Void... voids) {
-        return
-                this.f.get();
+        if (this.before != null) {
+            this
+                    .before.result();
+        }
+        return this.f.get();
+    }
+
+    @Override
+    protected void onPostExecute(Post.Response<D> response) {
+        switch (
+                response.status) {
+            case S:
+                if (this.success != null) {
+                    this.success.result(response.data);
+                }
+                return;
+            case E:
+                if (this.error != null) {
+                    this.error.result(response.error);
+                }
+        }
+        if (this.always != null) {
+            this
+                    .always.result(response);
+        }
     }
 
     public interface IDo<D> {
         Response<D> get(
+
+        );
+    }
+
+    public interface IBefore {
+        void result(
 
         );
     }
@@ -31,7 +98,12 @@ public class Post<D> extends AsyncTask<Void, Void, Post.Response<D>> {
 
     public interface IError {
         void result(
-                CException e);
+                CException.Error error);
+    }
+
+    public interface IAlways<D> {
+        void result(
+                Post.Response<D> response);
     }
 
     public static class Response<D> {
@@ -41,7 +113,7 @@ public class Post<D> extends AsyncTask<Void, Void, Post.Response<D>> {
             E
         }
 
-        public Status status = Status.E;
+        public Status status;
 
         public D data;
 
@@ -62,6 +134,15 @@ public class Post<D> extends AsyncTask<Void, Void, Post.Response<D>> {
             this(Status.E);
             this
                     .error = error;
+        }
+
+        @Override
+        public String toString() {
+            return "Response{" +
+                    "status=" + status +
+                    ", data=" + data +
+                    ", error=" + error +
+                    '}';
         }
     }
 }

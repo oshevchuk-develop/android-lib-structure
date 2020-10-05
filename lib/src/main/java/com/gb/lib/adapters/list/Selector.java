@@ -1,16 +1,7 @@
 package com.gb.lib.adapters.list;
 
+import com.gb.lib.adapters.rv.BaseAdapter;
+
 import java.io.Serializable;
 
-public class Selector implements Serializable {
 
-    protected boolean selected = false;
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-}

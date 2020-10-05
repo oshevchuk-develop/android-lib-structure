@@ -3,9 +3,12 @@ package com.gb.library;
 import android.view.View;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 import com.gb.lib.activity.base.ABase;
 import com.gb.lib.adapters.rv.BaseAdapter;
+import com.gb.lib.api.connection.Post;
+import com.gb.lib.api.connection.manager.ApiManager;
 import com.gb.lib.app.App;
 import com.gb.lib.view.holders.VHBase;
 
@@ -17,16 +20,20 @@ public class MainActivity extends ABase<App> {
                 R.layout.activity_main;
     }
 
-    private class Node implements BaseAdapter.IItem {
+    private static class Node extends BaseAdapter.Item {
 
     }
 
-    private class Hol extends VHBase {
+    private static class Hol extends VHBase {
 
         public Hol(View v) {
             super(
                     v);
         }
+    }
+
+    private static class NodeRes extends ApiManager.JSONRPC2.Result {
+
     }
 
 
@@ -41,6 +48,17 @@ public class MainActivity extends ABase<App> {
             }
         };
 
-        //new ApiManager.JSONRPC2().function("").run(this.app);
+        new Post<>(new Post.IDo() {
+            @Override
+            public Post.Response get() {
+                return new ApiManager.JSONREST<String>(String.class) {
+                    @Override
+                    public Post.Response response(boolean success, int code, @NonNull String data) {
+
+                        return null;
+                    }
+                }.run(MainActivity.this.app, null);
+            }
+        }).execute();
     }
 }

@@ -1,6 +1,7 @@
 package com.gb.lib.view.holders;
 
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
@@ -36,6 +37,84 @@ public class VHBase {
         return this;
     }
 
+    public VHBase clickLong(
+            View.OnLongClickListener l) {
+        if (this.v != null) {
+            this.v.setOnLongClickListener(l);
+        }
+        return this;
+    }
+
+    public VHBase clickLong(
+            @IdRes int id, View.OnLongClickListener l) {
+        View v = this.v(id);
+        if (
+                v != null) {
+            v.setOnLongClickListener(l);
+        }
+        return this;
+    }
+
+    public VHBase clickable(
+            boolean state) {
+        if (
+                this.v != null) {
+            this.v.setClickable(state);
+        }
+        return this;
+    }
+
+    public VHBase clickable(
+            @IdRes int id, boolean state) {
+        View v = this.v(id);
+        if (
+                v != null) {
+            v.setClickable(state);
+        }
+        return this;
+    }
+
+    public VHBase touch(
+            @IdRes int id, View.OnTouchListener l) {
+        View v = this.v(id);
+        if (
+                v != null) {
+            v.setOnTouchListener(l);
+        }
+        return this;
+    }
+
+    public boolean checked(
+            @IdRes int id) {
+        CheckBox v = this.v(id, CheckBox.class);
+        if (
+                v != null) {
+            return v.isChecked();
+        }
+        return false;
+    }
+
+    public VHBase checked(
+            @IdRes int id, boolean state) {
+        CheckBox v = this.v(id, CheckBox.class);
+        if (
+                v != null) {
+            v.setChecked(state);
+        }
+        return this;
+    }
+
+    public String text(
+            @IdRes int id) {
+        TextView v = this.v(id, TextView.class);
+        if (
+                v != null) {
+            return v.getText().toString();
+        } else {
+            return Utils.Strings.EMPTY;
+        }
+    }
+
     public VHBase text(
             @IdRes int id, String text) {
         TextView v = this.v(id, TextView.class);
@@ -67,6 +146,15 @@ public class VHBase {
     }
 
     public VHBase visible(
+            int value) {
+        if (
+                this.v != null) {
+            this.v.setVisibility(value);
+        }
+        return this;
+    }
+
+    public VHBase visible(
             @IdRes int id, int value) {
         View v = this.v(id);
         if (
@@ -77,11 +165,39 @@ public class VHBase {
     }
 
     public VHBase enable(
+            boolean value) {
+        if (
+                this.v != null) {
+            this.v.setEnabled(value);
+        }
+        return this;
+    }
+
+    public VHBase enable(
             @IdRes int id, boolean value) {
         View v = this.v(id);
         if (
                 v != null) {
             v.setEnabled(value);
+        }
+        return this;
+    }
+
+    public VHBase backgroundResource(
+            int res) {
+        if (
+                this.v != null) {
+            this.v.setBackgroundResource(res);
+        }
+        return this;
+    }
+
+    public VHBase backgroundResource(
+            @IdRes int id, int res) {
+        View v = this.v(id);
+        if (
+                v != null) {
+            v.setBackgroundResource(res);
         }
         return this;
     }
@@ -108,5 +224,10 @@ public class VHBase {
             return cls.cast(v);
         }
         return null;
+    }
+
+    public <T> T and(T o) {
+        return
+                o;
     }
 }

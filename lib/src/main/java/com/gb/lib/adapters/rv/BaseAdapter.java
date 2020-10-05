@@ -8,7 +8,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gb.lib.adapters.list.Selector;
 import com.gb.lib.adapters.rv.holder.Holder;
 import com.gb.lib.adapters.rv.i.IBaseAdapter;
 import com.gb.lib.app.utils.Utils;
@@ -18,13 +17,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase> extends RecyclerView.Adapter<Holder<H>> implements IBaseAdapter<T, H> {
+public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> extends RecyclerView.Adapter<Holder<H>> implements IBaseAdapter<T, H> {
 
     @LayoutRes
     private int
             l;
 
-    protected List<IItem>
+    protected List<Item>
             items = new ArrayList<>();
 
     protected Context
@@ -179,7 +178,7 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
                         : this.l;
     }
 
-    public IItem first() {
+    public Item first() {
         if (this.items.size() > 0) {
             return
                     this.items.get(0);
@@ -187,27 +186,35 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
         return null;
     }
 
-    public IItem selected() {
-        for (IItem item : this.items) {
+    public List<Item> selected() {
+        List<Item>
+                checked = new ArrayList<>();
+        for (Item item : this.items) {
             if (item instanceof Selector && ((Selector) item).isSelected()) {
-                return item;
+                checked.add(item);
             }
         }
-        return null;
+        return checked;
     }
 
-    public IItem get(int i) {
+    public Item get(int i) {
         return this.items.get(i);
     }
 
-    public BaseAdapter<T, H> select(int index) {
-        return select(index, true);
+    public BaseAdapter<T, H> select(int index, boolean multiple) {
+        return select(index, multiple, true);
     }
 
-    public BaseAdapter<T, H> select(int index, boolean notif) {
+    public BaseAdapter<T, H> select(int index, boolean multiple, boolean notif) {
         for (int i = 0; i < this.items.size(); i++) {
             if (this.items.get(i) instanceof Selector) {
-                ((Selector) this.items.get(i)).setSelected(i == index);
+                if (multiple) {
+                    if (i == index) {
+                        ((Selector) this.items.get(i)).setSelected(!((Selector) this.items.get(i)).isSelected());
+                    }
+                } else {
+                    ((Selector) this.items.get(i)).setSelected(i == index);
+                }
             }
         }
         if (notif) {
@@ -216,29 +223,48 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
         return this;
     }
 
-    public int selectedIndex() {
-        for (int i = 0; i < this.items.size(); i++) {
-            if (this.items.get(i) instanceof Selector && ((Selector) this.items.get(i)).isSelected()) {
-                return i;
-            }
+    public static class Item implements Serializable {
+
+        public Long
+                id;
+
+        public Long getId(
+
+        ) {
+            return id;
         }
-        return -1;
-    }
 
-    public interface IItem extends Serializable {
+        public void setId(
+                Long id) {
+            this.id = id;
+        }
 
-        default boolean inst(Class<?> cls) {
+        protected boolean inst(Class<?> cls) {
             return
                     cls != null && cls.isInstance(this);
         }
 
-        default <T extends IItem> T cast(Class<T> cls) {
+        protected <T extends Item> T cast(Class<T> cls) {
             return
                     this.inst(cls) ? cls.cast(this) : null;
         }
     }
 
-    public static class Injection extends Selector implements IItem {
+    public static class Selector extends Item {
+
+        protected boolean
+                selected = false;
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
+    }
+
+    public static class Injection extends Selector {
 
         private @LayoutRes
         int l;
@@ -296,13 +322,13 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
         return this;
     }
 
-    private BaseAdapter<T, H> uiNotifAll() {
+    public BaseAdapter<T, H> uiNotifAll() {
         this
                 .notifyDataSetChanged();
         return this;
     }
 
-    private BaseAdapter<T, H> uiNotifInsertRange(int start, int count) {
+    public BaseAdapter<T, H> uiNotifInsertRange(int start, int count) {
         this
                 .notifyItemRangeInserted(start, count);
         return this;
