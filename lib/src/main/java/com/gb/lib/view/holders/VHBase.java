@@ -1,12 +1,18 @@
 package com.gb.lib.view.holders;
 
+import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.gb.lib.adapters.rv.BaseAdapter;
 import com.gb.lib.app.utils.Utils;
 
 public class VHBase {
@@ -202,6 +208,19 @@ public class VHBase {
         return this;
     }
 
+    public <ADAPTER extends BaseAdapter> List.RV rv(
+            @IdRes int id, boolean fixed, boolean nested, RecyclerView.LayoutManager manager, ADAPTER adapter) {
+        List.RV v = v(
+                id,
+                List.RV.class
+        );
+        if (v != null) {
+            return v.adapter(adapter).fixed(fixed).nestedScrollEnabled(nested).manager(manager);
+        }
+        return null;
+    }
+
+
     public View v(
     ) {
         return
@@ -229,5 +248,58 @@ public class VHBase {
     public <T> T and(T o) {
         return
                 o;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     *
+     *
+     * extensions
+     *
+     *
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    public static class List {
+
+        public static class RV extends RecyclerView {
+
+            public RV(@NonNull Context context) {
+                super(context);
+            }
+
+            public RV(@NonNull Context context, @Nullable AttributeSet attrs) {
+                super(context, attrs);
+            }
+
+            public RV(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
+                super(context, attrs, defStyle);
+            }
+
+            public <ADAPTER extends BaseAdapter> RV adapter(
+                    ADAPTER adapter) {
+                this.setAdapter(adapter);
+                return this;
+            }
+
+            public RV manager(
+                    RecyclerView.LayoutManager manager) {
+                this.setLayoutManager(manager);
+                return this;
+            }
+
+            public RV nestedScrollEnabled(
+                    boolean state) {
+                this.setNestedScrollingEnabled(
+                        state
+                );
+                return this;
+            }
+
+            public RV fixed(
+                    boolean state) {
+                this.setHasFixedSize(state);
+                return this;
+            }
+        }
+
+
     }
 }

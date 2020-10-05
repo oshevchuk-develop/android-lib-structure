@@ -3,7 +3,6 @@ package com.gb.lib.api.connection;
 import android.os.AsyncTask;
 
 import com.gb.lib.exceptions.CException;
-import com.gb.lib.statics.Errors;
 
 public class Post<D> extends AsyncTask<Void, Void, Post.Response<D>> {
 
@@ -51,12 +50,18 @@ public class Post<D> extends AsyncTask<Void, Void, Post.Response<D>> {
     }
 
     @Override
-    protected Response<D> doInBackground(Void... voids) {
+    protected void onPreExecute(
+
+    ) {
         if (this.before != null) {
-            this
-                    .before.result();
+            this.before.result();
         }
-        return this.f.get();
+    }
+
+    @Override
+    protected Response<D> doInBackground(Void... voids) {
+        return
+                this.f.get();
     }
 
     @Override
