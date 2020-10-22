@@ -2,6 +2,7 @@ package com.gb.lib.activity.base;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
@@ -70,13 +71,21 @@ public class ABase<APP extends Application> extends AppCompatActivity implements
                 request, permissions, results);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(
+                config);
+        this
+                .configuration(config);
+    }
+
+    /*-------------------------------------------------------------------------------*/
+
     protected @LayoutRes
     int getLayout() {
         return
                 -1;
     }
-
-    /*-------------------------------------------------------------------------------*/
 
     @Override
     public void init() {
@@ -113,6 +122,11 @@ public class ABase<APP extends Application> extends AppCompatActivity implements
     @Override
     public void permissions(
             int request, @NonNull String[] permissions, @NonNull int[] results) {
+
+    }
+
+    @Override
+    public void configuration(Configuration config) {
 
     }
 

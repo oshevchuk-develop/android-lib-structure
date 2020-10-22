@@ -110,7 +110,7 @@ public class ApiManager {
                 return this.response(
                         response.isSuccessful(),
                         response.code(),
-                        response.body() != null ? response.body().string() : Utils.Strings.EMPTY);
+                        response.body() != null ? response.body().string() : Utils.Strings.EMPTY, this.data);
             } catch (IOException e) {
                 return new Post.Response<>(
                         new CException.Error(-1, e.getMessage(), CException.Error.Type.E)
@@ -118,6 +118,6 @@ public class ApiManager {
             }
         }
 
-        public abstract Post.Response<D> response(boolean success, int code, @NonNull String data);
+        public abstract Post.Response<D> response(boolean success, int code, @NonNull String data, Class<D> type);
     }
 }

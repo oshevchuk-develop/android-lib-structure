@@ -1,6 +1,7 @@
 package com.gb.lib.activity.base.i;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 
 import androidx.annotation.NonNull;
 
@@ -21,4 +22,8 @@ public interface IACallBack {
 
     void permissions(
             int request, @NonNull String[] permissions, @NonNull int[] results);
+
+    void configuration(
+            Configuration config);
+
 }

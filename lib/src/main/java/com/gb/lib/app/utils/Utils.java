@@ -18,6 +18,16 @@ public class Utils {
             return
                     str == null ? (def == null ? EMPTY : def) : str;
         }
+
+        public static boolean empty(
+                String string) {
+            return (string == null || string.length() == 0);
+        }
+
+        public static boolean notEmpty(
+                String string) {
+            return (string != null && string.length() > 0);
+        }
     }
 
     public static class Lists {

@@ -48,17 +48,15 @@ public class MainActivity extends ABase<App> {
             }
         };
 
-        new Post<>(new Post.IDo() {
-            @Override
-            public Post.Response get() {
-                return new ApiManager.JSONREST<String>(String.class) {
-                    @Override
-                    public Post.Response response(boolean success, int code, @NonNull String data) {
+        new Post<Node>(() -> new ApiManager.JSONREST<Node>(Node.class) {
 
-                        return null;
-                    }
-                }.run(MainActivity.this.app, null);
+
+            @Override
+            public Post.Response<Node> response(boolean success, int code, @NonNull String data, Class<Node> type) {
+                return null;
             }
+        }.run(MainActivity.this.app, null)).success(data -> {
+
         }).execute();
     }
 }

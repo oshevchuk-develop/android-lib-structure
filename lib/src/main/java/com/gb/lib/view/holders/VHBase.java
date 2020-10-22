@@ -6,14 +6,17 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gb.lib.R;
 import com.gb.lib.adapters.rv.BaseAdapter;
 import com.gb.lib.app.utils.Utils;
+import com.google.android.material.snackbar.Snackbar;
 
 public class VHBase {
 
@@ -253,6 +256,39 @@ public class VHBase {
     /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      *
      *
+     * messages
+     *
+     *
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+    public VHBase snack(Messages.Snack.Type type, @StringRes int id) {
+        return this.snack(
+                type, this.v.getResources().getString(id));
+    }
+
+    public VHBase snack(Messages.Snack.Type type, String message) {
+        return this.snack(
+                type, message, Messages.Snack.Duration.SHORT);
+    }
+
+    public VHBase snack(Messages.Snack.Type type, @StringRes int id, Messages.Snack.Duration duration) {
+        return this.snack(type, this.v.getResources().getString(id), duration);
+    }
+
+    public VHBase snack(Messages.Snack.Type type, String message, Messages.Snack.Duration duration) {
+        Messages.Snack.snack(
+                this.v,
+                type,
+                Utils.Strings.val(message),
+                duration);
+
+        return
+                this;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     *
+     *
      * extensions
      *
      *
@@ -300,6 +336,54 @@ public class VHBase {
             }
         }
 
+    }
+
+    public static class Messages {
+
+        public static class Snack {
+
+            public enum Type {
+                S(R.color.lib_g_70),
+                E(R.color.lib_r_70),
+                W(R.color.lib_o_70);
+                @ColorRes
+                int
+                        color;
+
+                Type(int color) {
+                    this.color = color;
+                }
+            }
+
+            public enum Duration {
+
+                SHORT(Snackbar.LENGTH_SHORT), LONG(Snackbar.LENGTH_LONG), INDEFINITE(Snackbar.LENGTH_INDEFINITE);
+                int id;
+
+                Duration(int id) {
+                    this.id = id;
+                }
+
+                public int getId() {
+                    return id;
+                }
+            }
+
+            public static void snack(View view, Type type, String message, Duration duration) {
+                Snackbar snackbar = Snackbar.make(
+                        view,
+                        message,
+                        duration.getId()
+                );
+                snackbar.getView().setBackgroundResource(
+                        type.color
+                );
+                snackbar.show(
+
+                );
+            }
+
+        }
 
     }
 }
