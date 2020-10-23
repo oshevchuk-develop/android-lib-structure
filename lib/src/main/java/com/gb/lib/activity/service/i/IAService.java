@@ -3,6 +3,8 @@ package com.gb.lib.activity.service.i;
 import android.content.ComponentName;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 public interface IAService<SERVICE> {
 
     Intent intent(
@@ -18,7 +20,7 @@ public interface IAService<SERVICE> {
     );
 
     void received(
-            Intent intent
+            @NonNull String action, @NonNull Intent intent
     );
 
 }

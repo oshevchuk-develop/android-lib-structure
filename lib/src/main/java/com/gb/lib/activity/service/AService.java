@@ -105,9 +105,12 @@ public abstract class AService<APP extends Application, SERVICE extends BService
         @Override
         public void onReceive(
                 Context context, Intent intent) {
-            AService.this.received(
-                    intent
-            );
+            if (intent != null && intent.getAction() != null) {
+                AService.this.received(
+                        intent.getAction(),
+                        intent
+                );
+            }
         }
     };
 
