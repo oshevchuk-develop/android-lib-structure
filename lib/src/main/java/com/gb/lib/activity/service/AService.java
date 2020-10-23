@@ -20,7 +20,17 @@ public abstract class AService<APP extends Application, SERVICE extends BService
     protected AService start(
 
     ) {
-        this.startService(this.service());
+        this.startService(this.service(
+
+        ));
+        return
+                this;
+    }
+
+    protected AService stop(
+
+    ) {
+        this.stopService(this.service());
         return
                 this;
     }
@@ -33,7 +43,15 @@ public abstract class AService<APP extends Application, SERVICE extends BService
 
     }
 
-    protected AService receiver(
+    protected AService unbind(
+
+    ) {
+        this.unbindService(this.connection);
+        return
+                this;
+    }
+
+    protected AService receive(
             String[] channels
     ) {
 
@@ -48,6 +66,14 @@ public abstract class AService<APP extends Application, SERVICE extends BService
         }
 
         this.registerReceiver(this.receiver, f);
+        return
+                this;
+    }
+
+    protected AService unreceive(
+
+    ) {
+        this.unregisterReceiver(this.receiver);
         return
                 this;
     }
