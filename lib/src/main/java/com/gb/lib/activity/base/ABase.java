@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.gb.lib.activity.base.i.IACallBack;
 import com.gb.lib.view.holders.VHBase;
@@ -128,6 +129,17 @@ public class ABase<APP extends Application> extends AppCompatActivity implements
     @Override
     public void configuration(Configuration config) {
 
+    }
+
+    /*-------------------------------------------------------------------------------*/
+
+    public ABase<APP> permissions(
+            String[] permissions, int rc) {
+        ActivityCompat.requestPermissions(
+                this,
+                permissions,
+                rc);
+        return this;
     }
 
     /*-------------------------------------------------------------------------------*/
