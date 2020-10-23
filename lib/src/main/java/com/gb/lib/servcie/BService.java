@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.gb.lib.app.utils.Utils;
 import com.gb.lib.servcie.i.IBaseService;
 
 public abstract class BService extends Service implements IBaseService {
@@ -39,7 +38,7 @@ public abstract class BService extends Service implements IBaseService {
 
     public Intent buffer(String channel) {
         return new Intent(
-                this.broadcastAction() + "." + Utils.Strings.val(channel)
+                channel
         );
     }
 

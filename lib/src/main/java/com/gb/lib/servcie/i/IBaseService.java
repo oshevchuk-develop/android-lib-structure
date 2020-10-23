@@ -22,7 +22,4 @@ public interface IBaseService {
 
     );
 
-    String broadcastAction(
-
-    );
 }
