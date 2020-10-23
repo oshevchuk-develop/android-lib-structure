@@ -6,8 +6,6 @@ import android.app.NotificationManager;
 
 import androidx.core.app.NotificationCompat;
 
-import com.gb.lib.R;
-import com.gb.lib.app.utils.Utils;
 import com.gb.lib.servcie.i.IForeService;
 
 public abstract class FService extends BService implements IForeService {
@@ -20,9 +18,11 @@ public abstract class FService extends BService implements IForeService {
                         this.channel()
                 )
         );
-        this.startForeground(this.idForeground(), new NotificationCompat.Builder(
-                this, this.channelId()
-        ).setContentTitle(Utils.Strings.EMPTY).setContentText(Utils.Strings.EMPTY).setPriority(this.channelImportance()).build());
+
+        this.startForeground(
+                this.idForeground(),
+                this.startNotificationOptions(new NotificationCompat.Builder(this, this.channelId()).setPriority(this.notificationImportance()))
+        );
     }
 
     protected NotificationChannel channel(

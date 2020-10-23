@@ -5,19 +5,19 @@ import android.content.Intent;
 
 public interface IAService<SERVICE> {
 
-    Intent service(
+    Intent intent(
 
     );
 
-    void connected(
+    void bound(
             ComponentName name, SERVICE service
     );
 
-    void disconnected(
+    void unbound(
             ComponentName name
     );
 
-    void receive(
+    void received(
             Intent intent
     );
 

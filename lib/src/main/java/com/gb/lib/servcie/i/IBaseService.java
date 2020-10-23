@@ -25,8 +25,4 @@ public interface IBaseService {
     String broadcastAction(
 
     );
-
-    Object instance(
-
-    );
 }

@@ -15,35 +15,35 @@ import com.gb.lib.servcie.BService;
 
 public abstract class AService<APP extends Application, SERVICE extends BService> extends ABase<APP> implements IAService<SERVICE> {
 
-    protected SERVICE service;
+    public SERVICE service;
 
-    protected AService start(
+    public AService start(
 
     ) {
-        this.startService(this.service(
+        this.startService(this.intent(
 
         ));
         return
                 this;
     }
 
-    protected AService stop(
+    public AService stop(
 
     ) {
-        this.stopService(this.service());
+        this.stopService(this.intent());
         return
                 this;
     }
 
-    protected AService bind(
+    public AService bind(
             int flags) {
-        this.bindService(this.service(), this.connection, flags);
+        this.bindService(this.intent(), this.connection, flags);
         return
                 this;
 
     }
 
-    protected AService unbind(
+    public AService unbind(
 
     ) {
         this.unbindService(this.connection);
@@ -51,7 +51,7 @@ public abstract class AService<APP extends Application, SERVICE extends BService
                 this;
     }
 
-    protected AService receive(
+    public AService receive(
             String[] channels
     ) {
 
@@ -70,7 +70,7 @@ public abstract class AService<APP extends Application, SERVICE extends BService
                 this;
     }
 
-    protected AService unreceive(
+    public AService unreceive(
 
     ) {
         this.unregisterReceiver(this.receiver);
@@ -82,7 +82,7 @@ public abstract class AService<APP extends Application, SERVICE extends BService
         @Override
         public void onServiceConnected(
                 ComponentName name, IBinder binder) {
-            AService.this.connected(
+            AService.this.bound(
                     name,
                     (AService.this.service = ((BService.LocalBinder<SERVICE>) binder).getService())
             );
@@ -93,7 +93,7 @@ public abstract class AService<APP extends Application, SERVICE extends BService
                 ComponentName name) {
             AService.this
                     .service = null;
-            AService.this.disconnected(
+            AService.this.unbound(
                     name
             );
 
@@ -105,7 +105,7 @@ public abstract class AService<APP extends Application, SERVICE extends BService
         @Override
         public void onReceive(
                 Context context, Intent intent) {
-            AService.this.receive(
+            AService.this.received(
                     intent
             );
         }
