@@ -39,7 +39,6 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
             Context c, int l, List<T> arg1) {
         this(c, l);
         this
-                .oAdd(arg1)
                 .oAdd(arg1);
     }
 
@@ -224,20 +223,6 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     }
 
     public static class Item implements Serializable {
-
-        public Long
-                id;
-
-        public Long getId(
-
-        ) {
-            return id;
-        }
-
-        public void setId(
-                Long id) {
-            this.id = id;
-        }
 
         protected boolean inst(Class<?> cls) {
             return
