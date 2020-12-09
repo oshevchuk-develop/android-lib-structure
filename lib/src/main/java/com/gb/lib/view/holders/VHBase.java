@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
@@ -109,6 +110,16 @@ public class VHBase {
         if (
                 v != null) {
             v.setChecked(state);
+        }
+        return this;
+    }
+
+    public VHBase checked(
+            @IdRes int id, CompoundButton.OnCheckedChangeListener listener) {
+        CheckBox v = this.v(id, CheckBox.class);
+        if (
+                v != null) {
+            v.setOnCheckedChangeListener(listener);
         }
         return this;
     }
