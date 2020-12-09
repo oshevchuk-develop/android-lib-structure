@@ -1,6 +1,7 @@
 package com.gb.lib.view.holders;
 
 import android.content.Context;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
@@ -151,6 +152,16 @@ public class VHBase {
         if (
                 v != null) {
             v.setText(res);
+        }
+        return this;
+    }
+
+    public VHBase text(
+            @IdRes int id, Spanned spanned) {
+        TextView v = this.v(id, TextView.class);
+        if (
+                v != null) {
+            v.setText(spanned);
         }
         return this;
     }
