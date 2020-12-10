@@ -125,7 +125,7 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
             if (this.items.get(p1) instanceof InjectionPagination) {
                 this.notifyItemChanged(p1);
             }
-            int p2 = this.items.size() - 1;
+            int p2 = 0;
             if (this.items.get(p2) instanceof InjectionPagination) {
                 this.notifyItemChanged(p2);
             }
