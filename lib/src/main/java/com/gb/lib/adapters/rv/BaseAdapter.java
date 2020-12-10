@@ -114,6 +114,42 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
 
     /*add*/
     public boolean add(
+            T arg1) {
+        return this.add(arg1, this.items.size());
+    }
+
+    public boolean add(
+            T arg1, int position) {
+        if (this.items.size() > 0) {
+
+            if (this.items.get((this.items.size() - 1)) instanceof InjectionPagination) {
+                this.notifyItemChanged(
+                        (this.items.size() - 1)
+                );
+            }
+            if (this.items.get(0) instanceof InjectionPagination) {
+                this.notifyItemChanged(
+                        0
+                );
+            }
+        }
+        return this.oAdd(arg1, position).uiNotifInsert(position).getItemCount() == 0;
+    }
+
+    public boolean add(
+            Injection arg1) {
+
+        return
+                this.add(arg1, this.items.size());
+    }
+
+    public boolean add(
+            Injection arg1, int position) {
+
+        return this.oAdd(arg1, position).uiNotifInsert(position).getItemCount() == 0;
+    }
+
+    public boolean add(
             List<T> arg1) {
         return this.add(arg1, this.items.size());
     }
@@ -121,17 +157,21 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     public boolean add(
             List<T> arg1, int position) {
         if (this.items.size() > 0) {
-            int p1 = this.items.size() - 1;
-            if (this.items.get(p1) instanceof InjectionPagination) {
-                this.notifyItemChanged(p1);
+
+            if (this.items.get((this.items.size() - 1)) instanceof InjectionPagination) {
+                this.notifyItemChanged(
+                        (this.items.size() - 1)
+                );
             }
-            int p2 = 0;
-            if (this.items.get(p2) instanceof InjectionPagination) {
-                this.notifyItemChanged(p2);
+            if (this.items.get(0) instanceof InjectionPagination) {
+                this.notifyItemChanged(
+                        0
+                );
             }
         }
-        return this.oAdd(arg1, position).uiNotifInsertRange(position, Utils.Lists.safe(arg1).size()).getItemCount() == 0;
+        return this.oAdd(arg1, position).uiNotifInsert(position, Utils.Lists.safe(arg1).size()).getItemCount() == 0;
     }
+
 
     public BaseAdapter<T, H> update(
             int i, T t) {
@@ -293,13 +333,14 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
         return this;
     }
 
-    private BaseAdapter<T, H> oAdd(List<T> items) {
-        return this.oAdd(items, this.items.size());
+    private BaseAdapter<T, H> oAdd(T item) {
+        return
+                this.oAdd(item, this.items.size());
     }
 
-    private BaseAdapter<T, H> oAdd(List<T> items, int position) {
-        if (items != null) {
-            this.items.addAll(position, items);
+    private BaseAdapter<T, H> oAdd(T item, int position) {
+        if (item != null) {
+            this.items.add(position, item);
         }
         return this;
     }
@@ -311,15 +352,39 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
         return this;
     }
 
+    private BaseAdapter<T, H> oAdd(Injection injection, int position) {
+        if (injection != null) {
+            this.items.add(position, injection);
+        }
+        return this;
+    }
+
+    private BaseAdapter<T, H> oAdd(List<T> items) {
+        return this.oAdd(items, this.items.size());
+    }
+
+    private BaseAdapter<T, H> oAdd(List<T> items, int position) {
+        if (items != null) {
+            this.items.addAll(position, items);
+        }
+        return this;
+    }
+
     public BaseAdapter<T, H> uiNotifAll() {
         this
                 .notifyDataSetChanged();
         return this;
     }
 
-    public BaseAdapter<T, H> uiNotifInsertRange(int start, int count) {
+    public BaseAdapter<T, H> uiNotifInsert(int start, int count) {
         this
                 .notifyItemRangeInserted(start, count);
+        return this;
+    }
+
+    public BaseAdapter<T, H> uiNotifInsert(int position) {
+        this
+                .notifyItemInserted(position);
         return this;
     }
 }
