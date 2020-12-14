@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gb.lib.R;
 import com.gb.lib.adapters.rv.BaseAdapter;
@@ -256,6 +257,30 @@ public class VHBase {
         return null;
     }
 
+    public VHBase refreshInit(
+            @IdRes int id, SwipeRefreshLayout.OnRefreshListener listener, @NonNull @ColorInt int... colors) {
+        SwipeRefreshLayout v = this.v(id, SwipeRefreshLayout.class);
+        if (
+                v != null) {
+            v.setOnRefreshListener(
+                    listener
+            );
+            v.setColorSchemeColors(colors);
+        }
+        return this;
+    }
+
+    public VHBase refreshState(
+            @IdRes int id, boolean refreshing) {
+        SwipeRefreshLayout v = this.v(id, SwipeRefreshLayout.class);
+        if (
+                v != null) {
+            v.post(() -> v.setRefreshing(
+                    refreshing
+            ));
+        }
+        return this;
+    }
 
     public View v(
     ) {
