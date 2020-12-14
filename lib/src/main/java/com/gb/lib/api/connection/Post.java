@@ -72,7 +72,6 @@ public class Post<D> extends AsyncTask<Void, Void, Post.Response<D>> {
                 if (this.success != null) {
                     this.success.result(response.data);
                 }
-                return;
             case E:
                 if (this.error != null) {
                     this.error.result(response.error);
