@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -162,6 +163,16 @@ public class VHBase {
         if (
                 v != null) {
             v.setText(spanned);
+        }
+        return this;
+    }
+
+    public VHBase textColor(
+            @IdRes int id, @ColorInt int color) {
+        TextView v = this.v(id, TextView.class);
+        if (
+                v != null) {
+            v.setTextColor(color);
         }
         return this;
     }
