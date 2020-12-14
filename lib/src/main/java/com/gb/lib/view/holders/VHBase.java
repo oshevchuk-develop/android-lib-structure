@@ -257,27 +257,22 @@ public class VHBase {
         return null;
     }
 
-    public VHBase refreshInit(
-            @IdRes int id, SwipeRefreshLayout.OnRefreshListener listener, @NonNull @ColorInt int... colors) {
-        SwipeRefreshLayout v = this.v(id, SwipeRefreshLayout.class);
+    public VHBase refresh(
+            @IdRes int id, List.Refresh.Listener.Action action, @NonNull @ColorInt int... colors) {
+        List.Refresh v = this.v(id, List.Refresh.class);
         if (
                 v != null) {
-            v.setOnRefreshListener(
-                    listener
-            );
-            v.setColorSchemeColors(colors);
+            v.listener(new List.Refresh.Listener(action).refresh(v)).colors(colors);
         }
         return this;
     }
 
-    public VHBase refreshState(
-            @IdRes int id, boolean refreshing) {
-        SwipeRefreshLayout v = this.v(id, SwipeRefreshLayout.class);
+    public VHBase refresh(
+            @IdRes int id, boolean refreshing, boolean enabled) {
+        List.Refresh v = this.v(id, List.Refresh.class);
         if (
                 v != null) {
-            v.post(() -> v.setRefreshing(
-                    refreshing
-            ));
+            v.refreshing(refreshing).enabled(enabled);
         }
         return this;
     }
@@ -394,6 +389,75 @@ public class VHBase {
             }
         }
 
+        public static class Refresh extends SwipeRefreshLayout {
+
+            public Refresh(@NonNull Context context) {
+                super(context);
+            }
+
+            public Refresh(@NonNull Context context, @Nullable AttributeSet attrs) {
+                super(context, attrs);
+            }
+
+            public Refresh listener(Listener listener) {
+                this.setOnRefreshListener(
+                        listener
+                );
+                return this;
+            }
+
+            public Refresh colors(@NonNull @ColorInt int... colors) {
+                this.setColorSchemeColors(
+                        colors
+                );
+                return this;
+            }
+
+            public Refresh enabled(boolean state) {
+                this.setEnabled(state);
+                return this;
+            }
+
+            public Refresh refreshing(boolean state) {
+                this.post(() -> this.setRefreshing(
+                        state
+                ));
+                return this;
+            }
+
+            public static class Listener implements SwipeRefreshLayout.OnRefreshListener {
+
+                private Refresh
+                        refresh;
+
+                private final Action
+                        action;
+
+                public Listener(
+                        Action action
+                ) {
+                    this.action = action;
+                }
+
+                public Listener refresh(
+                        Refresh refresh) {
+                    this.refresh = refresh;
+                    return this;
+                }
+
+                @Override
+                public void onRefresh() {
+                    if (this.action != null) {
+                        this.action.action(this.refresh);
+                    }
+                }
+
+                public interface Action {
+                    void action(Refresh refresh);
+                }
+            }
+
+        }
     }
 
     public static class Messages {
@@ -444,4 +508,6 @@ public class VHBase {
         }
 
     }
+
+
 }
