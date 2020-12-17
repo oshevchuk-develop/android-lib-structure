@@ -209,6 +209,21 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     }
 
     @Override
+    public <D> D get001(Object... objects) {
+        return null;
+    }
+
+    @Override
+    public <D> D get002(Object... objects) {
+        return null;
+    }
+
+    @Override
+    public <D> D get003(Object... objects) {
+        return null;
+    }
+
+    @Override
     public int getItemCount() {
         return this.items.size();
     }

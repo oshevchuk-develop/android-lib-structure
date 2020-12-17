@@ -8,4 +8,11 @@ public interface IBaseAdapter<T extends BaseAdapter.Item, H extends VHBase> {
     void bind(H holder, T item, int i);
 
     void bind(H holder, BaseAdapter.Injection item, int i);
+
+    <D> D get001(Object... objects);
+
+    <D> D get002(Object... objects);
+
+    <D> D get003(Object... objects);
+
 }
