@@ -29,6 +29,9 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     protected Context
             c;
 
+    protected VHBase.List.RV
+            rv;
+
     public BaseAdapter(
             Context c, int l) {
         this.c = c;
@@ -183,6 +186,16 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
             int i) {
         this.items.remove(i);
         return this;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView rv) {
+
+        super.onAttachedToRecyclerView(
+                rv
+        );
+
+        this.rv = (VHBase.List.RV) rv;
     }
 
     @NonNull
@@ -401,5 +414,10 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
         this
                 .notifyItemInserted(position);
         return this;
+    }
+
+    public <O> O and(O o) {
+        return
+                o;
     }
 }
