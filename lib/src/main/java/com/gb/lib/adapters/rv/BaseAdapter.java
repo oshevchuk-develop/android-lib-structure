@@ -53,43 +53,43 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     }
 
     /*clean and set*/
-    public boolean data(
+    public BaseAdapter<T, H> data(
             List<T> arg1) {
 
         return this.oClear()
                 .oAdd(arg1)
-                .uiNotifAll().getItemCount() == 0;
+                .uiNotifAll();
     }
 
-    public boolean data(
+    public BaseAdapter<T, H> data(
             List<T> arg1, Injection arg2) {
 
         return this.oClear()
                 .oAdd(arg1)
                 .oAdd(arg2)
-                .uiNotifAll().getItemCount() == 0;
+                .uiNotifAll();
     }
 
-    public boolean data(
+    public BaseAdapter<T, H> data(
             Injection arg1, List<T> arg2) {
 
         return this.oClear()
                 .oAdd(arg1)
                 .oAdd(arg2)
-                .uiNotifAll().getItemCount() == 0;
+                .uiNotifAll();
     }
 
-    public boolean data(
+    public BaseAdapter<T, H> data(
             Injection arg1, List<T> arg2, Injection arg3) {
 
         return this.oClear()
                 .oAdd(arg1)
                 .oAdd(arg2)
                 .oAdd(arg3)
-                .uiNotifAll().getItemCount() == 0;
+                .uiNotifAll();
     }
 
-    public boolean data(
+    public BaseAdapter<T, H> data(
             Injection arg1, List<T> arg2, Injection arg3, List<T> arg4, Injection arg5, List<T> arg6) {
 
         return this.oClear()
@@ -99,26 +99,26 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
                 .oAdd(arg4)
                 .oAdd(arg5)
                 .oAdd(arg6)
-                .uiNotifAll().getItemCount() == 0;
+                .uiNotifAll();
     }
 
-    public boolean data(
+    public BaseAdapter<T, H> data(
             List<T> arg1, Injection arg2, List<T> arg3) {
 
         return this.oClear()
                 .oAdd(arg1)
                 .oAdd(arg2)
                 .oAdd(arg3)
-                .uiNotifAll().getItemCount() == 0;
+                .uiNotifAll();
     }
 
     /*add*/
-    public boolean add(
+    public BaseAdapter<T, H> add(
             T arg1) {
         return this.add(arg1, this.items.size());
     }
 
-    public boolean add(
+    public BaseAdapter<T, H> add(
             T arg1, int position) {
         if (this.items.size() > 0) {
 
@@ -133,28 +133,28 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
                 );
             }
         }
-        return this.oAdd(arg1, position).uiNotifInsert(position).getItemCount() == 0;
+        return this.oAdd(arg1, position).uiNotifInsert(position);
     }
 
-    public boolean add(
+    public BaseAdapter<T, H> add(
             Injection arg1) {
 
         return
                 this.add(arg1, this.items.size());
     }
 
-    public boolean add(
+    public BaseAdapter<T, H> add(
             Injection arg1, int position) {
 
-        return this.oAdd(arg1, position).uiNotifInsert(position).getItemCount() == 0;
+        return this.oAdd(arg1, position).uiNotifInsert(position);
     }
 
-    public boolean add(
+    public BaseAdapter<T, H> add(
             List<T> arg1) {
         return this.add(arg1, this.items.size());
     }
 
-    public boolean add(
+    public BaseAdapter<T, H> add(
             List<T> arg1, int position) {
         if (this.items.size() > 0) {
 
@@ -169,7 +169,7 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
                 );
             }
         }
-        return this.oAdd(arg1, position).uiNotifInsert(position, Utils.Lists.safe(arg1).size()).getItemCount() == 0;
+        return this.oAdd(arg1, position).uiNotifInsert(position, Utils.Lists.safe(arg1).size());
     }
 
 
