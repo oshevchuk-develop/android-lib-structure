@@ -6,10 +6,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -241,6 +243,16 @@ public class VHBase {
         if (
                 v != null) {
             v.setBackgroundResource(res);
+        }
+        return this;
+    }
+
+    public VHBase src(
+            @IdRes int id, @DrawableRes int res) {
+        ImageView v = this.v(id, ImageView.class);
+        if (
+                v != null) {
+            v.setImageResource(res);
         }
         return this;
     }
