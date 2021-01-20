@@ -209,15 +209,15 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     public void onBindViewHolder(@NonNull Holder view, int position) {
         if (this.items.get(view.getAdapterPosition()) instanceof Injection) {
             this.bind(
-                    (H) view.item, (Injection) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
+                    view, (H) view.item, (Injection) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         } else {
             this.bind(
-                    (H) view.item, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
+                    view, (H) view.item, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         }
     }
 
     @Override
-    public void bind(H holder, BaseAdapter.Injection item, int i) {
+    public void bind(Holder holder, H view, BaseAdapter.Injection item, int i) {
 
     }
 

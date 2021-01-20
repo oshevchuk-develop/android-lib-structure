@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.gb.lib.activity.base.ABase;
 import com.gb.lib.adapters.rv.BaseAdapter;
+import com.gb.lib.adapters.rv.holder.Holder;
 import com.gb.lib.api.connection.Post;
 import com.gb.lib.api.connection.manager.ApiManager;
 import com.gb.lib.app.App;
@@ -43,7 +44,7 @@ public class MainActivity extends ABase<App> {
         BaseAdapter<Node, Hol> adapter = new BaseAdapter<Node, Hol>(this, -1) {
 
             @Override
-            public void bind(Hol holder, Node item, int i) {
+            public void bind(Holder holder, Hol view, Node item, int i) {
 
             }
         };
