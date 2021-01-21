@@ -44,7 +44,7 @@ public class MainActivity extends ABase<App> {
         BaseAdapter<Node, Hol> adapter = new BaseAdapter<Node, Hol>(this, -1) {
 
             @Override
-            public void bind(Holder holder, Hol view, Node item, int i) {
+            public void bind(Holder holder, Node item, int i) {
 
             }
         };

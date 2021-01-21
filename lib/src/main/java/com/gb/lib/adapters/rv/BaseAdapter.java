@@ -15,6 +15,8 @@ import com.gb.lib.view.holders.VHBase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> extends RecyclerView.Adapter<Holder<H>> implements IBaseAdapter<T, H> {
@@ -36,6 +38,10 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
             Context c, int l) {
         this.c = c;
         this.l = l;
+        this
+                .init(
+
+                );
     }
 
     public BaseAdapter(
@@ -52,6 +58,11 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
         this
                 .oAdd(arg1)
                 .oAdd(arg2);
+
+    }
+
+    @Override
+    public void init() {
 
     }
 
@@ -209,15 +220,15 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     public void onBindViewHolder(@NonNull Holder view, int position) {
         if (this.items.get(view.getAdapterPosition()) instanceof Injection) {
             this.bind(
-                    view, (H) view.item, (Injection) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
+                    view, (Injection) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         } else {
             this.bind(
-                    view, (H) view.item, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
+                    view, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         }
     }
 
     @Override
-    public void bind(Holder holder, H view, BaseAdapter.Injection item, int i) {
+    public void bind(Holder holder, BaseAdapter.Injection item, int i) {
 
     }
 
@@ -419,5 +430,40 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     public <O> O and(O o) {
         return
                 o;
+    }
+
+    public BaseAdapter<T, H> remove(T[] items) {
+        Iterator<Item> i = this.items.iterator();
+        while (
+                i.hasNext()) {
+
+            Item item = i.next();
+
+            for (
+                    T remove : items) {
+                if (item.equals(remove)) {
+                    i
+                            .remove();
+                    break;
+                }
+            }
+        }
+        return
+                this;
+    }
+
+    public BaseAdapter<T, H> move(int from, int to) {
+        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(this.items, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(this.items, i, i - 1);
+            }
+        }
+        this.notifyItemMoved(from, to);
+        return
+                this;
     }
 }
