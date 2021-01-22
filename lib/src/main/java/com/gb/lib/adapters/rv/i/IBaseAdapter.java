@@ -14,6 +14,9 @@ public interface IBaseAdapter<T extends BaseAdapter.Item, H extends VHBase> {
 
     void bind(Holder<H> holder, BaseAdapter.Injection item, int i);
 
+    void move(
+            int fp, int tp);
+
     <D> D get001(Object... objects);
 
     <D> D get002(Object... objects);

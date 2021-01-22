@@ -15,7 +15,6 @@ import com.gb.lib.view.holders.VHBase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -199,6 +198,26 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
         return this;
     }
 
+    public BaseAdapter<T, H> remove(T[] items) {
+        Iterator<Item> i = this.items.iterator();
+        while (
+                i.hasNext()) {
+
+            Item item = i.next();
+
+            for (
+                    T remove : items) {
+                if (item.equals(remove)) {
+                    i
+                            .remove();
+                    break;
+                }
+            }
+        }
+        return
+                this;
+    }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView rv) {
 
@@ -233,6 +252,12 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     }
 
     @Override
+    public void move(
+            int fp, int tp) {
+
+    }
+
+    @Override
     public <D> D get001(Object... objects) {
         return null;
     }
@@ -260,27 +285,27 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
                         : this.l;
     }
 
-    public Item first() {
+    public T first() {
         if (this.items.size() > 0) {
             return
-                    this.items.get(0);
+                    (T) this.items.get(0);
         }
         return null;
     }
 
-    public List<Item> selected() {
-        List<Item>
+    public List<T> selected() {
+        List<T>
                 checked = new ArrayList<>();
         for (Item item : this.items) {
             if (item instanceof Selector && ((Selector) item).isSelected()) {
-                checked.add(item);
+                checked.add((T) item);
             }
         }
         return checked;
     }
 
-    public Item get(int i) {
-        return this.items.get(i);
+    public T get(int i) {
+        return (T) this.items.get(i);
     }
 
     public BaseAdapter<T, H> select(int index, boolean multiple) {
@@ -430,40 +455,5 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
     public <O> O and(O o) {
         return
                 o;
-    }
-
-    public BaseAdapter<T, H> remove(T[] items) {
-        Iterator<Item> i = this.items.iterator();
-        while (
-                i.hasNext()) {
-
-            Item item = i.next();
-
-            for (
-                    T remove : items) {
-                if (item.equals(remove)) {
-                    i
-                            .remove();
-                    break;
-                }
-            }
-        }
-        return
-                this;
-    }
-
-    public BaseAdapter<T, H> move(int from, int to) {
-        if (from < to) {
-            for (int i = from; i < to; i++) {
-                Collections.swap(this.items, i, i + 1);
-            }
-        } else {
-            for (int i = from; i > to; i--) {
-                Collections.swap(this.items, i, i - 1);
-            }
-        }
-        this.notifyItemMoved(from, to);
-        return
-                this;
     }
 }
