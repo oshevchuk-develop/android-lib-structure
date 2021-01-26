@@ -257,6 +257,22 @@ public class VHBase {
         return this;
     }
 
+    public VHBase alpha(
+            @IdRes int id, float value) {
+        View v = this.v(id);
+        if (
+                v != null) {
+            v.setAlpha(value);
+        }
+        return this;
+    }
+
+    public <ADAPTER extends BaseAdapter> List.RV rv(
+            @IdRes int id, boolean fixed, boolean nested, RecyclerView.LayoutManager manager) {
+        return
+                this.rv(id, fixed, nested, manager, null);
+    }
+
     public <ADAPTER extends BaseAdapter> List.RV rv(
             @IdRes int id, boolean fixed, boolean nested, RecyclerView.LayoutManager manager, ADAPTER adapter) {
         List.RV v = v(

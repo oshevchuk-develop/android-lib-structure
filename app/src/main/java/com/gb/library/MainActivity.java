@@ -49,7 +49,7 @@ public class MainActivity extends ABase<App> {
             }
         };
 
-        new Post<Node>(() -> new ApiManager.JSONREST<Node>(Node.class) {
+       /* new Post<Node>(() -> new ApiManager.JSONREST<Node>(Node.class) {
 
 
             @Override
@@ -58,6 +58,6 @@ public class MainActivity extends ABase<App> {
             }
         }.run(MainActivity.this.app, null)).success(data -> {
 
-        }).execute();
+        }).execute();*/
     }
 }
