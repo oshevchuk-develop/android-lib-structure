@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -176,6 +177,16 @@ public class VHBase {
         if (
                 v != null) {
             v.setTextColor(color);
+        }
+        return this;
+    }
+
+    public VHBase textSelection(
+            @IdRes int id, int index) {
+        EditText v = this.v(id, EditText.class);
+        if (
+                v != null) {
+            v.setSelection(index);
         }
         return this;
     }
