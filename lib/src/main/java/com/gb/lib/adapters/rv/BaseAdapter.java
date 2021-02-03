@@ -65,6 +65,12 @@ public abstract class BaseAdapter<T extends BaseAdapter.Item, H extends VHBase> 
 
     }
 
+    public BaseAdapter<T, H> inst(
+            List<T> items) {
+        this.items = (List<Item>) items;
+        return this;
+    }
+
     /*clean and set*/
     public BaseAdapter<T, H> data(
             List<T> arg1) {
